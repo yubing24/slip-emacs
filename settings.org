@@ -1,0 +1,73 @@
+* System Configuration
+** Custom File
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file "~/.emacs.d/custom.el")
+#+END_SRC
+** Garbage Collection
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold-original gc-cons-threshold)
+  (setq gc-cons-threshold (* 1000 1000))
+  (setq read-process-output-max (* 128 1024 1024))
+  (message "Garbage collection configured")
+#+END_SRC
+
+** Package Management
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                        ("elpa" . "https://elpa.gnu.org/packages/")
+                        ("melpa-stable" . "https://stable.melpa.org/packages/")
+                        ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+  (package-initialize) ;; initialize package list
+  (unless package-archive-contents
+    (package-refresh-contents)) ;; useful when setting up a new computer
+  (unless (package-installed-p 'use-package) ;; if use-package is not installed
+    (package-refresh-contents) ;; update package list before install use-package
+    (package-install 'use-package)) ;; install use-package
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  (message "use-package is configured")
+#+END_SRC
+
+* User Interface
+
+** Turn off menu bar
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+#+END_SRC
+
+** Theme
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :config
+    (setq doom-themes-enable-bold t
+	  doom-themes-enable-italic t)
+    (load-theme 'doom-oceanic-next t))
+#+END_SRC
+
+** Icons
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons)
+#+END_SRC
+
+** Modeline
+Use Doom moodline here.
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+  :ensure t
+  :init
+  (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 32)
+  (setq doom-modeline-bar-width 12)
+  (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-major-mode-color-icon t)
+  (setq doom-modeline-minor-modes nil)
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project)
+  (setq doom-modeline-buffer-state-icon t)
+  (setq doom-modeline-buffer-modification-icon t)
+  (setq doom-modeline-icon (display-graphic-p))
+  (setq doom-modeline-indent-info t)
+  (setq doom-modeline-lsp t))
+#+END_SRC
+
