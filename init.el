@@ -1,3 +1,21 @@
+;; Initialize ELPA packages
+(require 'package)
+
+;; Add additional package sources
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages")) ;; MELPA
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages")) ;; MELPA stable versions
+(package-initialize)
+
+;; Conditionally refresh package archives
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; Put custom settings in its own file
+(setq custom-file "~/.emacs.d/custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;; Make Emacs load the rest of the settings from the settings.org file.
 (require 'org)
 (org-babel-load-file
  (expand-file-name "settings.org"

@@ -3,4 +3,6 @@ eln-cache/
 elpa/
 private/
 settings.el
-
+recentf
+transient/
+.last-package-update-day
